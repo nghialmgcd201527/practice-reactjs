@@ -3,23 +3,20 @@ import { useSnackbar } from "notistack";
 import Protypes from "prop-types";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { register } from "../../userSlice";
-import RegisterForm from "../RegisterForm";
+import { login } from "../../userSlice";
+import LoginForm from "../LoginForm";
 
-Register.propTypes = {
+Login.propTypes = {
   closeDialog: Protypes.func,
 };
 
-function Register(props) {
+function Login(props) {
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
 
   const handleSubmit = async (values) => {
     try {
-      //auto set username = email
-      values.username = values.email;
-
-      const action = register(values);
+      const action = login(values);
       const resultAction = await dispatch(action);
       unwrapResult(resultAction);
 
@@ -28,17 +25,15 @@ function Register(props) {
       if (closeDialog) {
         closeDialog();
       }
-
-      enqueueSnackbar("Register successfully", { variant: "success" });
     } catch (error) {
       enqueueSnackbar(error.message, { variant: "error" });
     }
   };
   return (
     <div>
-      <RegisterForm onSubmit={handleSubmit} />
+      <LoginForm onSubmit={handleSubmit} />
     </div>
   );
 }
 
-export default Register;
+export default Login;

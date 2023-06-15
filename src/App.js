@@ -13,6 +13,8 @@ import TodoFeature from "./features/Todo";
 import "./App.css";
 import styled from "styled-components";
 import Header from "./components/Header";
+import { Button } from "@material-ui/core";
+import { useSnackbar } from "notistack";
 
 const Title = styled.h1`
   text-align: center;
@@ -22,6 +24,8 @@ const Title = styled.h1`
 `;
 
 function App() {
+  const { enqueueSnackbar } = useSnackbar();
+
   useEffect(() => {
     const fetchProductList = async () => {
       const params = {
@@ -34,10 +38,14 @@ function App() {
     fetchProductList();
   }, []);
 
+  const showNoti = () => {
+    enqueueSnackbar("Register successfully", { variant: "success" });
+  };
+
   return (
     <div className="app">
       <Header />
-
+      <Button onClick={showNoti}>Show noti</Button>
       <Switch>
         <Redirect from="/home" to="/" exact />
         <Redirect from="/post-list/:postId" to="/posts/:postId" exact />
